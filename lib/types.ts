@@ -57,9 +57,9 @@ export interface SocialPost {
 }
 
 export enum FriendStatus {
-  PENDING = 'pending',
-  ACCEPTED = 'accepted',
-  REJECTED = 'rejected'
+  PENDING = "pending",
+  ACCEPTED = "accepted",
+  REJECTED = "rejected",
 }
 
 export interface FriendRequest {
@@ -68,4 +68,14 @@ export interface FriendRequest {
   toUserId: string;
   status: FriendStatus;
   timestamp: string;
+}
+
+export interface Actor {
+  id: string;
+  name: string;
+  bio: string;
+  imageUrl: string;
+  birthDate: string;
+  birthPlace: string;
+  knownFor: Movie[];
 }

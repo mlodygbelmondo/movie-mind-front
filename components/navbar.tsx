@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { UserNav } from "@/components/user-nav";
+import { GlobalSearch } from "@/components/global-search";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,7 +18,7 @@ export default function Navbar() {
           <Film className="h-6 w-6" />
           <span className="text-xl font-bold">MovieMind</span>
         </div>
-        <nav className="flex items-center space-x-4 lg:space-x-6 mx-6">
+        <nav className="flex items-center space-x-4 desktop:space-x-6 mx-4">
           <Link
             href="/"
             className={cn(
@@ -43,6 +44,9 @@ export default function Navbar() {
             </Button>
           </Link>
         </nav>
+        <div className="ml-4 flex-1 max-w-lg">
+          <GlobalSearch />
+        </div>
         <div className="ml-auto flex items-center space-x-4">
           <UserNav />
         </div>

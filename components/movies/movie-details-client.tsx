@@ -6,13 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MovieReviews } from "@/components/movie-reviews";
 import { SimilarMovies } from "@/components/similar-movies";
-import { mockMovies } from "@/lib/mock";
+import { mockActors, mockMovies } from "@/lib/mock";
 import { MovieNotFound } from "@/components/movies/movie-not-found";
 import { useFavorites } from "@/lib/favorites/favorites-context";
 import { cn } from "@/lib/utils";
 import { shareMovie } from "@/lib/utils/share";
 import { useState } from "react";
 import { useWatchLater } from "@/lib/watch-later/watch-later-context";
+import Link from "next/link";
 
 interface MovieDetailsClientProps {
   params: {
@@ -39,6 +40,14 @@ export default function MovieDetailsClient({
 
   const isMovieFavorite = isFavorite(movie);
   const isMovieInWatchLater = isInWatchLater(movie.id);
+
+  // Find random actors for the cast (in a real app, this would be actual cast data)
+  const movieActors = mockActors
+    .slice(0, movie.cast?.length || 0)
+    .map((actor, index) => ({
+      ...actor,
+      name: movie.cast?.[index], // Use the movie's cast names
+    }));
 
   const handleWatchLaterClick = () => {
     if (isMovieInWatchLater) {
@@ -157,6 +166,37 @@ export default function MovieDetailsClient({
               </div>
             </CardContent>
           </Card>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        {/* Cast Section */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold">Cast</h2>
+          <div className="flex overflow-x-auto space-x-4 pb-4">
+            {movieActors.map((actor) => (
+              <Link
+                key={actor.id}
+                href={`/actors/${actor.id}`}
+                className="block group flex-shrink-0"
+              >
+                <div className="space-y-2 w-[150px]">
+                  <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
+                    <img
+                      src={actor.imageUrl}
+                      alt={actor.name}
+                      className="object-cover transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-medium group-hover:underline">
+                      {actor.name}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 

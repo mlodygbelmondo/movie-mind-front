@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FriendsList } from "@/components/social/friends-list";
 import { FriendRequests } from "@/components/social/friend-requests";
 import { ActivityFeed } from "@/components/social/activity-feed";
+import { AddFriend } from "@/components/social/add-friend";
 
 export default function SocialPage() {
   return (
@@ -19,18 +20,22 @@ export default function SocialPage() {
         <div className="md:col-span-2">
           <ActivityFeed />
         </div>
-        
+
         <div className="space-y-6">
           <Tabs defaultValue="friends" className="w-full">
-            <TabsList className="w-full">
-              <TabsTrigger value="friends" className="flex-1">Friends</TabsTrigger>
-              <TabsTrigger value="requests" className="flex-1">Requests</TabsTrigger>
+            <TabsList className="w-full grid grid-cols-3">
+              <TabsTrigger value="friends">Friends</TabsTrigger>
+              <TabsTrigger value="requests">Requests</TabsTrigger>
+              <TabsTrigger value="add">Add</TabsTrigger>
             </TabsList>
             <TabsContent value="friends">
               <FriendsList />
             </TabsContent>
             <TabsContent value="requests">
               <FriendRequests />
+            </TabsContent>
+            <TabsContent value="add">
+              <AddFriend />
             </TabsContent>
           </Tabs>
         </div>
