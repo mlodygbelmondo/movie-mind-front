@@ -87,9 +87,9 @@ export default function RegisterPage() {
           <div className="flex justify-center mb-4">
             <Film className="h-12 w-12" />
           </div>
-          <CardTitle className="text-3xl">Create an account</CardTitle>
+          <CardTitle className="text-3xl">Stwórz konto</CardTitle>
           <CardDescription>
-            Enter your details to create your MovieMind account
+            Uzupełnij poniższe dane by stworzyć konto na MovieMind.
           </CardDescription>
         </CardHeader>
         <Form {...form}>
@@ -100,9 +100,9 @@ export default function RegisterPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Imię i nazwisko</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} />
+                      <Input placeholder="Jan Nowak" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -113,10 +113,10 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Adres e-mail</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="m@example.com"
+                        placeholder="Adres e-mail"
                         type="email"
                         {...field}
                       />
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Hasło</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Potwierdź hasło</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -155,12 +155,12 @@ export default function RegisterPage() {
             <CardFooter className="flex flex-col space-y-4">
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create account
+                Stwórz konto
               </Button>
               <div className="text-sm text-center text-muted-foreground">
-                Already have an account?{" "}
+                Posiadasz już konto?{" "}
                 <Link href="/login" className="text-primary hover:underline">
-                  Sign in
+                  Zaloguj się
                 </Link>
               </div>
             </CardFooter>

@@ -13,9 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import dayjs from "dayjs";
 
 const reviewSchema = z.object({
-  content: z.string().min(10, {
-    message: "Review must be at least 10 characters long",
-  }),
+  content: z.string(),
   rating: z.number().min(1).max(5),
 });
 
@@ -61,15 +59,15 @@ export function MovieReviews({ movieId }: MovieReviewsProps) {
       // Add your review submission logic here
       console.log({ ...data, movieId });
       toast({
-        title: "Success",
-        description: "Your review has been posted.",
+        title: "Mamy to!",
+        description: "Twoja opinia została dodana.",
       });
       form.reset();
       setSelectedRating(0);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to post review. Please try again.",
+        title: "Coś poszło nie tak",
+        description: "Spróbuj ponownie.",
         variant: "destructive",
       });
     } finally {
@@ -83,7 +81,7 @@ export function MovieReviews({ movieId }: MovieReviewsProps) {
         <CardContent className="p-6">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <Textarea
-              placeholder="Write your review... (minimum 10 characters)"
+              placeholder="Napisz swoją opinie..."
               {...form.register("content")}
               className="mb-4"
             />
@@ -105,7 +103,7 @@ export function MovieReviews({ movieId }: MovieReviewsProps) {
                 ))}
               </div>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Posting..." : "Post Review"}
+                {isSubmitting ? "Dodawanie..." : "Dodaj Opinię"}
               </Button>
             </div>
             {form.formState.errors.content && (
@@ -114,9 +112,7 @@ export function MovieReviews({ movieId }: MovieReviewsProps) {
               </p>
             )}
             {form.formState.errors.rating && (
-              <p className="text-sm text-red-500 mt-2">
-                Please select a rating
-              </p>
+              <p className="text-sm text-red-500 mt-2">Ocena</p>
             )}
           </form>
         </CardContent>

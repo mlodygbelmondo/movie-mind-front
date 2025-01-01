@@ -23,34 +23,41 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { loginSchema, type LoginValues } from "@/lib/validations/auth";
 import Link from "next/link";
+import { z } from "zod";
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address",
+  }),
+});
+
+type ForgotPasswordSchemaInput = z.infer<typeof forgotPasswordSchema>;
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const form = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ForgotPasswordSchemaInput>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  async function onSubmit(data: LoginValues) {
+  async function onSubmit(data: ForgotPasswordSchemaInput) {
     setIsLoading(true);
     try {
       // Add your login logic here
       console.log(data);
       toast({
-        title: "Success",
-        description: "You have successfully logged in.",
+        title: "Wysłano maila.",
+        description: "Sprawdź swoją skrzynkę mailową!",
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Invalid email or password.",
+        title: "Coś poszło nie tak",
+        description: "Niepoprawny e-mail.",
         variant: "destructive",
       });
     } finally {
@@ -65,9 +72,9 @@ export default function LoginPage() {
           <div className="flex justify-center mb-4">
             <Film className="h-12 w-12" />
           </div>
-          <CardTitle className="text-3xl">Witaj z powrotem!</CardTitle>
+          <CardTitle className="text-3xl">Odzyskiwanie hasła</CardTitle>
           <CardDescription>
-            Zaloguj się do swojego konta, aby kontynuować.
+            Na podany adres e-mail zostanie wysłany link do zresetowania hasła.
           </CardDescription>
         </CardHeader>
         <Form {...form}>
@@ -90,37 +97,15 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hasło</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Hasło" type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex items-center justify-end">
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-muted-foreground hover:text-primary"
-                >
-                  Zapomniałeś hasła?
-                </Link>
-              </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Zaloguj się
+                Zresetuj hasło
               </Button>
               <div className="text-sm text-center text-muted-foreground">
-                Nie masz jeszcze konta?{" "}
-                <Link href="/register" className="text-primary hover:underline">
-                  Zarejestruj się
+                <Link href="/login" className="text-primary hover:underline">
+                  Powrót
                 </Link>
               </div>
             </CardFooter>

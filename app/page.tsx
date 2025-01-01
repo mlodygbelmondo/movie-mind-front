@@ -26,19 +26,19 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <div className="flex flex-col space-y-4">
-        <h1 className="text-3xl font-bold">Welcome to MovieMind</h1>
+        <h1 className="text-3xl font-bold">Witaj w MovieMind</h1>
         <p className="text-muted-foreground">
-          Discover great movies through personalized recommendations and your
-          social circle.
+          Znajdź swoje ulubione filmy i aktorów oraz podziel się nimi ze
+          znajomymi!
         </p>
       </div>
 
       <Tabs defaultValue="recommendations" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
-          <TabsTrigger value="social">Social Feed</TabsTrigger>
-          <TabsTrigger value="all-films">All Films</TabsTrigger>
-          <TabsTrigger value="all-actors">All Actors</TabsTrigger>
+          <TabsTrigger value="recommendations">Rekomendacje</TabsTrigger>
+          <TabsTrigger value="social">Social</TabsTrigger>
+          <TabsTrigger value="all-films">Katalog filmów</TabsTrigger>
+          <TabsTrigger value="all-actors">Aktorzy</TabsTrigger>
         </TabsList>
         <TabsContent value="recommendations" className="space-y-4">
           <MovieRecommendations />
@@ -49,7 +49,7 @@ export default function Home() {
         <TabsContent value="all-films" className="space-y-4">
           <div className="space-y-4">
             <Input
-              placeholder="Search films..."
+              placeholder="Szukaj filmów..."
               value={movieSearchQuery}
               onChange={(e) => setMovieSearchQuery(e.target.value)}
               className="max-w-sm"
@@ -71,7 +71,7 @@ export default function Home() {
         <TabsContent value="all-actors" className="space-y-4">
           <div className="space-y-4">
             <Input
-              placeholder="Search actors..."
+              placeholder="Wyszukaj aktorów..."
               value={actorSearchQuery}
               onChange={(e) => setActorSearchQuery(e.target.value)}
               className="max-w-sm"

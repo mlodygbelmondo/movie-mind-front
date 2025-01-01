@@ -32,7 +32,7 @@ export default function Navbar() {
               >
                 <Button variant="ghost" className="space-x-2">
                   <Home className="h-4 w-4" />
-                  <span>Home</span>
+                  <span>Główna</span>
                 </Button>
               </Link>
               <Link
