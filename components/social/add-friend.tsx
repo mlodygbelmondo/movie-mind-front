@@ -32,7 +32,7 @@ export function AddFriend() {
   return (
     <div className="space-y-4">
       <Input
-        placeholder="Search users..."
+        placeholder="Wyszukaj użytkowników..."
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
@@ -50,13 +50,13 @@ export function AddFriend() {
                 <div>
                   <p className="font-medium">{user.name}</p>
                   <p className="text-sm text-muted-foreground">
-                    {user.mutualFriends} mutual friends
+                    {user.mutualFriends} wspólnych znajomych
                   </p>
                 </div>
               </div>
               <Button variant="secondary" size="sm" className="space-x-2">
                 <UserPlus className="h-4 w-4" />
-                <span>Add Friend</span>
+                <span>Zaproś</span>
               </Button>
             </CardContent>
           </Card>
@@ -64,7 +64,7 @@ export function AddFriend() {
 
         {mockSuggestedUsers.length === 0 && (
           <div className="text-center text-muted-foreground py-8">
-            No users found
+            Nie znaleziono użytkowników
           </div>
         )}
       </div>

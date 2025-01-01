@@ -132,8 +132,8 @@ export default function MovieDetailsClient({
                 )}
               />
               {isMovieInWatchLater
-                ? "Remove from Watch Later"
-                : "Add to Watch Later"}
+                ? "Usuń z Do Obejrzenia"
+                : "Dodaj do Do Obejrzenia"}
             </Button>
             <Button
               variant="outline"
@@ -146,7 +146,7 @@ export default function MovieDetailsClient({
               ) : (
                 <Share2 className="w-4 h-4" />
               )}
-              <span>Share</span>
+              <span>Udostępnij</span>
             </Button>
           </div>
 
@@ -154,11 +154,11 @@ export default function MovieDetailsClient({
           <Card>
             <CardContent className="grid grid-cols-2 gap-4 p-6">
               <div>
-                <p className="text-sm text-muted-foreground">Director</p>
+                <p className="text-sm text-muted-foreground">Reżyser</p>
                 <p className="font-medium">{movie.director || "Unknown"}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Duration</p>
+                <p className="text-sm text-muted-foreground">Czas trwania</p>
                 <p className="font-medium flex items-center">
                   <Clock className="w-4 h-4 mr-1" />
                   {movie.duration || "120"} min
@@ -172,7 +172,7 @@ export default function MovieDetailsClient({
       <div className="mt-8">
         {/* Cast Section */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold">Cast</h2>
+          <h2 className="text-2xl font-semibold">Obsada</h2>
           <div className="flex overflow-x-auto space-x-4 pb-4">
             {movieActors.map((actor) => (
               <Link
@@ -202,13 +202,13 @@ export default function MovieDetailsClient({
 
       {/* Reviews Section */}
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">Reviews</h2>
+        <h2 className="text-2xl font-bold mb-6">Opinie</h2>
         <MovieReviews movieId={movie.id} />
       </div>
 
       {/* Similar Movies */}
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">Similar Movies</h2>
+        <h2 className="text-2xl font-bold mb-6">Podobne filmy</h2>
         <SimilarMovies movieId={movie.id} />
       </div>
     </div>

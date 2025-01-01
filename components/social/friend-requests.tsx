@@ -10,9 +10,10 @@ export function FriendRequests() {
     {
       id: "1",
       name: "Emma Davis",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format",
-      mutualFriends: 3
-    }
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format",
+      mutualFriends: 3,
+    },
   ];
 
   return (
@@ -28,7 +29,7 @@ export function FriendRequests() {
               <div>
                 <p className="font-medium">{request.name}</p>
                 <p className="text-sm text-muted-foreground">
-                  {request.mutualFriends} mutual friends
+                  {request.mutualFriends} wspólnych znajomych
                 </p>
               </div>
             </div>

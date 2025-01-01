@@ -19,20 +19,20 @@ export function MovieNotFound() {
           <div className="flex justify-center mb-4">
             <FileQuestion className="h-20 w-20 text-muted-foreground" />
           </div>
-          <CardTitle className="text-2xl">Movie Not Found</CardTitle>
+          <CardTitle className="text-2xl"></CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            We couldn't find the movie you're looking for. It might have been
-            removed or the link could be incorrect.
+            Nie znaleźliśmy filmu, którego szukasz. Mógł zostać usunięty lub
+            link jest nieprawidłowy.
           </p>
         </CardContent>
         <CardFooter className="flex justify-center space-x-4">
           <Link href="/">
-            <Button variant="default">Return Home</Button>
+            <Button variant="default">Powrót</Button>
           </Link>
           <Link href="/movies">
-            <Button variant="outline">Browse Movies</Button>
+            <Button variant="outline">Przeglądaj Filmy</Button>
           </Link>
         </CardFooter>
       </Card>

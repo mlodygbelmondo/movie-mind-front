@@ -12,7 +12,7 @@ export default function SocialPage() {
       <div className="flex flex-col space-y-4">
         <h1 className="text-3xl font-bold">Social</h1>
         <p className="text-muted-foreground">
-          Connect with friends and discover what they're watching.
+          Sprawdź co spodobało się Twoim znajomym!
         </p>
       </div>
 
@@ -24,9 +24,9 @@ export default function SocialPage() {
         <div className="space-y-6">
           <Tabs defaultValue="friends" className="w-full">
             <TabsList className="w-full grid grid-cols-3">
-              <TabsTrigger value="friends">Friends</TabsTrigger>
-              <TabsTrigger value="requests">Requests</TabsTrigger>
-              <TabsTrigger value="add">Add</TabsTrigger>
+              <TabsTrigger value="friends">Znajomi</TabsTrigger>
+              <TabsTrigger value="requests">Zaproszenia</TabsTrigger>
+              <TabsTrigger value="add">Zaproś</TabsTrigger>
             </TabsList>
             <TabsContent value="friends">
               <FriendsList />

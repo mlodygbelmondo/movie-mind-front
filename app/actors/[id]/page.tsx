@@ -14,7 +14,7 @@ export default function ActorProfile({ params }: { params: { id: string } }) {
   const actor = mockActors.find((a) => a.id === params.id);
 
   if (!actor) {
-    return <div>Actor not found</div>;
+    return <div>Actor nie znaleziony</div>;
   }
 
   return (
@@ -29,7 +29,7 @@ export default function ActorProfile({ params }: { params: { id: string } }) {
           <div>
             <h1 className="text-3xl font-bold mb-2">{actor.name}</h1>
             <p className="text-muted-foreground">
-              Born {actor.birthDate} in {actor.birthPlace}
+              Urodzony {actor.birthDate} w {actor.birthPlace}
             </p>
           </div>
           <p className="max-w-2xl text-muted-foreground">{actor.bio}</p>
@@ -38,7 +38,7 @@ export default function ActorProfile({ params }: { params: { id: string } }) {
 
       {/* Known For Section */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold">Known For</h2>
+        <h2 className="text-2xl font-semibold">Wystąpił w: </h2>
         <Card>
           <CardContent className="p-4">
             <ScrollArea>

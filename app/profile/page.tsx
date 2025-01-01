@@ -41,19 +41,19 @@ export default function ProfilePage() {
               <span className="font-semibold text-foreground">
                 {favorites.length}
               </span>{" "}
-              Favorites
+              Ulubione
             </div>
             <div>
               <span className="font-semibold text-foreground">
                 {watchLater.length}
               </span>{" "}
-              Watch Later
+              Do Obejrzenia
             </div>
             <div>
               <span className="font-semibold text-foreground">
                 {userActivity.length}
               </span>{" "}
-              Activities
+              Aktywność
             </div>
           </div>
         </div>
@@ -62,10 +62,10 @@ export default function ProfilePage() {
       {/* Profile Content */}
       <Tabs defaultValue="favorites" className="space-y-6">
         <TabsList>
-          <TabsTrigger value="favorites">Favorites</TabsTrigger>
-          <TabsTrigger value="watch-later">Watch Later</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
-          <TabsTrigger value="about">About</TabsTrigger>
+          <TabsTrigger value="favorites">Ulubione</TabsTrigger>
+          <TabsTrigger value="watch-later">Do Obejrzenia</TabsTrigger>
+          <TabsTrigger value="activity">Aktywność</TabsTrigger>
+          <TabsTrigger value="about">Informacje</TabsTrigger>
         </TabsList>
 
         <TabsContent value="favorites" className="space-y-6">
@@ -90,7 +90,7 @@ export default function ProfilePage() {
               <CardHeader>
                 <div className="flex items-center space-x-4">
                   <p className="text-sm text-muted-foreground">
-                    You {post.action}{" "}
+                    {post.action}{" "}
                     <span className="font-medium text-foreground">
                       {post.movie.title}
                     </span>
@@ -107,15 +107,15 @@ export default function ProfilePage() {
         <TabsContent value="about">
           <Card>
             <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
+              <CardTitle>Informacje o profilu</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <h3 className="font-medium mb-2">Email</h3>
+                <h3 className="font-medium mb-2">E-mail</h3>
                 <p className="text-muted-foreground">{currentUser.email}</p>
               </div>
               <div>
-                <h3 className="font-medium mb-2">Favorite Genres</h3>
+                <h3 className="font-medium mb-2">Ulubione gatunki</h3>
                 <div className="flex flex-wrap gap-2">
                   {currentUser.favoriteGenres?.map((genre) => (
                     <span

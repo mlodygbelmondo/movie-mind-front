@@ -53,19 +53,19 @@ export function GlobalSearch() {
         onClick={() => setOpen(true)}
       >
         <Search className="h-4 w-4 xl:mr-2" />
-        <span className="hidden xl:inline-flex">Search...</span>
+        <span className="hidden xl:inline-flex">Wyszukaj...</span>
         <kbd className="pointer-events-none absolute right-1.5 top-2 hidden h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 xl:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput
-          placeholder="Search movies and actors..."
+          placeholder="Wyszukaj filmy i aktorów..."
           value={query}
           onValueChange={setQuery}
         />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>Nie znaleziono.</CommandEmpty>
           {filteredMovies.length > 0 && (
             <CommandGroup heading="Movies">
               {filteredMovies.slice(0, 4).map((movie) => (
@@ -105,7 +105,7 @@ export function GlobalSearch() {
                   </Avatar>
                   <div>
                     <p className="text-sm font-medium">{actor.name}</p>
-                    <p className="text-xs text-muted-foreground">Actor</p>
+                    <p className="text-xs text-muted-foreground">Aktor</p>
                   </div>
                 </CommandItem>
               ))}

@@ -40,17 +40,19 @@ export function UserNav() {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link className="cursor-pointer" href="/profile">
-              Profile
+              Profil
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link className="cursor-pointer" href="/settings">
-              Settings
+              Ustawienia
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">Log out</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          Wyloguj się
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

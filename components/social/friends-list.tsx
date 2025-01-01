@@ -10,15 +10,17 @@ export function FriendsList() {
     {
       id: "1",
       name: "Sarah Wilson",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format",
-      mutualMovies: 15
+      avatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format",
+      mutualMovies: 15,
     },
     {
       id: "2",
       name: "Michael Chen",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format",
-      mutualMovies: 8
-    }
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format",
+      mutualMovies: 8,
+    },
   ];
 
   return (
@@ -34,7 +36,7 @@ export function FriendsList() {
               <div>
                 <p className="font-medium">{friend.name}</p>
                 <p className="text-sm text-muted-foreground">
-                  {friend.mutualMovies} mutual movies
+                  {friend.mutualMovies} wspólnych filmów
                 </p>
               </div>
             </div>

@@ -28,7 +28,8 @@ export function ActorCard({ actor }: ActorCardProps) {
             {actor.bio}
           </p>
           <p className="text-sm text-muted-foreground mt-2">
-            Known for: {actor.knownFor.length} films
+            Wystąpił w {actor.knownFor.length}{" "}
+            {actor.knownFor.length === 1 ? "filmie" : "filmach"}
           </p>
         </CardContent>
       </Card>
