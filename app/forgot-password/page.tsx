@@ -56,8 +56,8 @@ export default function LoginPage() {
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Niepoprawny mail.",
+        title: "Coś poszło nie tak",
+        description: "Niepoprawny e-mail.",
         variant: "destructive",
       });
     } finally {

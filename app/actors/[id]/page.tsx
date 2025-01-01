@@ -14,7 +14,7 @@ export default function ActorProfile({ params }: { params: { id: string } }) {
   const actor = mockActors.find((a) => a.id === params.id);
 
   if (!actor) {
-    return <div>Actor nie znaleziony</div>;
+    return <div>Aktor nie znaleziony</div>;
   }
 
   return (
