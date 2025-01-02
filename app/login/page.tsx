@@ -44,13 +44,13 @@ export default function LoginPage() {
       // Add your login logic here
       console.log(data);
       toast({
-        title: "Success",
-        description: "You have successfully logged in.",
+        title: "Sukces",
+        description: "Zalogowano pomyślnie.",
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Invalid email or password.",
+        title: "Coś poszło nie tak",
+        description: "Nieprawidłowy adres e-mail lub hasło.",
         variant: "destructive",
       });
     } finally {

@@ -40,8 +40,8 @@ export function WatchLaterProvider({
     addToWatchLaterService(movie);
     setWatchLater(getWatchLaterMovies());
     toast({
-      title: "Added to Watch Later",
-      description: `${movie.title} has been added to your watch later list.`,
+      title: "Dodano do Do Obejrzenia",
+      description: `${movie.title} został dodany do listy filmów do obejrzenia.`,
     });
   };
 
@@ -51,8 +51,8 @@ export function WatchLaterProvider({
     setWatchLater(getWatchLaterMovies());
     if (movie) {
       toast({
-        title: "Removed from Watch Later",
-        description: `${movie.title} has been removed from your watch later list.`,
+        title: "Usunięto z Do Obejrzenia",
+        description: `${movie.title} został usunięty z listy filmów do obejrzenia.`,
       });
     }
   };

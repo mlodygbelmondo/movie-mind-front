@@ -67,7 +67,7 @@ export function GlobalSearch() {
         <CommandList>
           <CommandEmpty>Nie znaleziono.</CommandEmpty>
           {filteredMovies.length > 0 && (
-            <CommandGroup heading="Movies">
+            <CommandGroup heading="Filmy">
               {filteredMovies.slice(0, 4).map((movie) => (
                 <CommandItem
                   key={movie.id}
@@ -92,7 +92,7 @@ export function GlobalSearch() {
             </CommandGroup>
           )}
           {filteredActors.length > 0 && (
-            <CommandGroup heading="Actors">
+            <CommandGroup heading="Aktorzy">
               {filteredActors.slice(0, 4).map((actor) => (
                 <CommandItem
                   key={actor.id}

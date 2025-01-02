@@ -29,18 +29,18 @@ import * as z from "zod";
 const registerSchema = z
   .object({
     name: z.string().min(2, {
-      message: "Name must be at least 2 characters long",
+      message: "Login musi mieć co najmniej 2 znaki",
     }),
     email: z.string().email({
-      message: "Please enter a valid email address",
+      message: "Proszę podać prawidłowy adres e-mail",
     }),
     password: z.string().min(8, {
-      message: "Password must be at least 8 characters long",
+      message: "Hasło musi mieć co najmniej 8 znaków",
     }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Hasła muszą być takie same",
     path: ["confirmPassword"],
   });
 
@@ -66,13 +66,13 @@ export default function RegisterPage() {
       // Add your registration logic here
       console.log(data);
       toast({
-        title: "Success",
-        description: "Your account has been created.",
+        title: "Sukces",
+        description: "Twoje konto zostało utworzone.",
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
+        title: "Coś poszło nie tak",
+        description: "Coś poszło nie tak. Spróbuj ponownie.",
         variant: "destructive",
       });
     } finally {
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Imię i nazwisko</FormLabel>
+                    <FormLabel>Login</FormLabel>
                     <FormControl>
                       <Input placeholder="Jan Nowak" {...field} />
                     </FormControl>
