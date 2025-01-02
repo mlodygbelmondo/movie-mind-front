@@ -113,7 +113,7 @@ export default function MovieDetailsClient({
                 />
               )}
               <span>
-                {isMovieFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                {isMovieFavorite ? "Usuń z Ulubionych" : "Dodaj do Ulubionych"}
               </span>
             </Button>
             <Button

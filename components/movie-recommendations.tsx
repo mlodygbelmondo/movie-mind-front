@@ -16,9 +16,9 @@ export function MovieRecommendations() {
     <div className="space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>Because you liked "Inception"</CardTitle>
+          <CardTitle>Ponieważ polubiłeś "Inception"</CardTitle>
           <CardDescription>
-            Movies with mind-bending plots and stunning visuals
+            Filmy z zapierającą dech w piersiach fabułą i oszałamiającą grafiką
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -35,9 +35,9 @@ export function MovieRecommendations() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Trending Among Friends</CardTitle>
+          <CardTitle>Popularne Wśród Znajomych</CardTitle>
           <CardDescription>
-            Popular movies in your social circle
+            Popularne filmy w twoim kręgu znajomych
           </CardDescription>
         </CardHeader>
         <CardContent>

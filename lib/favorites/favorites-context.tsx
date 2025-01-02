@@ -38,22 +38,22 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       if (isFav) {
         favoritesService.removeFavorite(MOCK_USER_ID, movie);
         toast({
-          title: "Removed from favorites",
-          description: `${movie.title} has been removed from your favorites.`,
+          title: "Usunięto z Ulubionych",
+          description: `${movie.title} został usunięty z ulubionych.`,
         });
       } else {
         favoritesService.addFavorite(MOCK_USER_ID, movie);
         toast({
-          title: "Added to favorites",
-          description: `${movie.title} has been added to your favorites.`,
+          title: "Dodano do Ulubionych",
+          description: `${movie.title} został dodany do ulubionych.`,
         });
       }
 
       setFavorites(favoritesService.getFavorites(MOCK_USER_ID));
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update favorites. Please try again.",
+        title: "Coś poszło nie tak",
+        description: "Nie udało się zaktualizować Ulubionych. Spróbuj ponownie.",
         variant: "destructive",
       });
     } finally {

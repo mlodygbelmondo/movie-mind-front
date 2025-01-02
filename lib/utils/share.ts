@@ -15,15 +15,15 @@ export async function shareMovie(movie: Movie) {
       // Use native share if available
       await navigator.share(shareData);
       toast({
-        title: "Shared successfully",
-        description: "The movie has been shared.",
+        title: "Udostępniono pomyślnie",
+        description: "Film został udostępniony.",
       });
     } else {
       // Fallback to copying the URL
       await navigator.clipboard.writeText(window.location.href);
       toast({
-        title: "Link copied",
-        description: "Movie link has been copied to your clipboard.",
+        title: "Skopiowano link",
+        description: "Link do filmu został skopiowany do twojego schowka.",
       });
     }
   } catch (error) {
@@ -33,8 +33,8 @@ export async function shareMovie(movie: Movie) {
     }
 
     toast({
-      title: "Error",
-      description: "Failed to share the movie. Please try again.",
+      title: "Coś poszło nie tak",
+      description: "Nie udało się udostępnić filmu. Spróbuj ponownie.",
       variant: "destructive",
     });
   }
