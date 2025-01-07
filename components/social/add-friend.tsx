@@ -48,9 +48,6 @@ export function AddFriend() {
                 </Avatar>
                 <div>
                   <p className="font-medium">{user.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {user.mutualFriends} wspólnych znajomych
-                  </p>
                 </div>
               </div>
               <Button variant="secondary" size="sm" className="space-x-2">

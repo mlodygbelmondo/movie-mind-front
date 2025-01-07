@@ -27,9 +27,6 @@ export function FriendRequests() {
               </Avatar>
               <div>
                 <p className="font-medium">{request.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {request.mutualFriends} wspólnych znajomych
-                </p>
               </div>
             </div>
             <div className="flex space-x-2">

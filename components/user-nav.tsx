@@ -58,11 +58,6 @@ export function UserNav() {
               Profil
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link className="cursor-pointer" href="/settings">
-              Ustawienia
-            </Link>
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logOut} className="cursor-pointer">

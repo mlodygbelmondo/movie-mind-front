@@ -21,9 +21,6 @@ export function FriendsList({ friends }: OwnProps) {
               </Avatar>
               <div>
                 <p className="font-medium">{name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {(Math.random() * 7 + 6).toFixed()} wspólnych filmów
-                </p>
               </div>
             </div>
             <Button variant="ghost" size="icon">
