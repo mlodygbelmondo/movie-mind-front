@@ -11,10 +11,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { mockMovies, mockActors } from "@/lib/mock";
+import { mockActors } from "@/lib/mock";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { MoviesInSearch } from "./movies-in-search";
+import { Input } from "./ui/input";
 
 export function GlobalSearch() {
   const [open, setOpen] = React.useState(false);
@@ -31,10 +33,6 @@ export function GlobalSearch() {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
-
-  const filteredMovies = mockMovies.filter((movie) =>
-    movie.title.toLowerCase().includes(query.toLowerCase())
-  );
 
   const filteredActors = mockActors.filter((actor) =>
     actor.name.toLowerCase().includes(query.toLowerCase())
@@ -55,42 +53,19 @@ export function GlobalSearch() {
         <Search className="h-4 w-4 xl:mr-2" />
         <span className="hidden xl:inline-flex">Wyszukaj...</span>
         <kbd className="pointer-events-none absolute right-1.5 top-2 hidden h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 xl:flex">
-          <span className="text-xs">⌘</span>K
+          <span className="text-[10px]">⌘</span>K / Ctrl K
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput
-          placeholder="Wyszukaj filmy i aktorów..."
+        <Input
+          placeholder="Wyszukaj..."
           value={query}
-          onValueChange={setQuery}
+          onChange={(e) => setQuery(e.target.value)}
+          className="m-3 mb-5 h-10 w-[400px]"
         />
-        <CommandList>
+        <CommandList className="">
           <CommandEmpty>Nie znaleziono.</CommandEmpty>
-          {filteredMovies.length > 0 && (
-            <CommandGroup heading="Filmy">
-              {filteredMovies.slice(0, 4).map((movie) => (
-                <CommandItem
-                  key={movie.id}
-                  onSelect={() => onSelect("movie", movie.id)}
-                  className="flex items-center gap-2"
-                >
-                  <div className="relative h-10 w-10 overflow-hidden rounded">
-                    <img
-                      src={movie.posterUrl}
-                      alt={movie.title}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">{movie.title}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {movie.year} • {movie.genre}
-                    </p>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
+          <MoviesInSearch query={query} onSelect={onSelect} />
           {filteredActors.length > 0 && (
             <CommandGroup heading="Aktorzy">
               {filteredActors.slice(0, 4).map((actor) => (
@@ -100,7 +75,6 @@ export function GlobalSearch() {
                   className="flex items-center gap-2"
                 >
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={actor.imageUrl} alt={actor.name} />
                     <AvatarFallback>{actor.name[0]}</AvatarFallback>
                   </Avatar>
                   <div>

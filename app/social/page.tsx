@@ -5,8 +5,31 @@ import { FriendsList } from "@/components/social/friends-list";
 import { FriendRequests } from "@/components/social/friend-requests";
 import { ActivityFeed } from "@/components/social/activity-feed";
 import { AddFriend } from "@/components/social/add-friend";
+import { useEffect, useState } from "react";
+import { useQuery } from "@/hooks/use-query";
+import { APIQueries } from "@/lib/api/api-queries";
+import { Movie } from "@/lib/types";
+
+type Data = {
+  friend_name: string;
+  movie: Movie;
+  action: string;
+}[];
 
 export default function SocialPage() {
+  const { data, isLoading } = useQuery({
+    endpoint: APIQueries.getSocialPageData,
+    params: {
+      userId: "1",
+    },
+  });
+
+  if (isLoading) return <div>Ładowanie...</div>;
+
+  const activityFeed = data as Data;
+
+  const friends = activityFeed.map((post) => post.friend_name);
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col space-y-4">
@@ -18,7 +41,7 @@ export default function SocialPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <ActivityFeed />
+          <ActivityFeed posts={activityFeed} />
         </div>
 
         <div className="space-y-6">
@@ -29,7 +52,7 @@ export default function SocialPage() {
               <TabsTrigger value="add">Zaproś</TabsTrigger>
             </TabsList>
             <TabsContent value="friends">
-              <FriendsList />
+              <FriendsList friends={friends} />
             </TabsContent>
             <TabsContent value="requests">
               <FriendRequests />

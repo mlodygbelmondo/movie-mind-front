@@ -14,6 +14,42 @@ import { shareMovie } from "@/lib/utils/share";
 import { useState } from "react";
 import { useWatchLater } from "@/lib/watch-later/watch-later-context";
 import Link from "next/link";
+import { useQuery } from "@/hooks/use-query";
+import { APIQueries } from "@/lib/api/api-queries";
+import { Movie } from "@/lib/types";
+import dayjs from "dayjs";
+
+const Genre: { [key: number]: string } = {
+  0: "Akcja",
+  1: "Animacja",
+  2: "Animacja 18+",
+  3: "Anime",
+  4: "Biograficzny",
+  5: "Basn",
+  6: "Czarna Komedia",
+  7: "Dla Dzieci",
+  8: "Dokumentalny",
+  9: "Dramat",
+  10: "Obyczajowy",
+  11: "SciFi",
+  12: "Fantasy",
+  13: "Przyrodniczy",
+  14: "Erotyczny",
+  15: "Romans",
+  16: "Wojenny",
+  17: "Western",
+  18: "Przygodowy",
+  19: "Thriller",
+  20: "Musical",
+  21: "Inny",
+  22: "Kryminal",
+  23: "Komedia",
+  24: "Historyczny",
+  25: "Familijny",
+  26: "Horror",
+  27: "Tajemnica",
+  28: "Muzyczny",
+};
 
 interface MovieDetailsClientProps {
   params: {
@@ -24,7 +60,15 @@ interface MovieDetailsClientProps {
 export default function MovieDetailsClient({
   params,
 }: MovieDetailsClientProps) {
-  const movie = mockMovies.find((m) => m.id === params.id);
+  const { data: movieData, isLoading: isMovieDataLoading } = useQuery({
+    endpoint: APIQueries.getMovie,
+    params: {
+      movieId: params.id,
+    },
+  });
+
+  console.log(movieData, "movieData");
+
   const {
     toggleFavorite,
     isFavorite,
@@ -34,24 +78,29 @@ export default function MovieDetailsClient({
     useWatchLater();
   const [isSharing, setIsSharing] = useState(false);
 
-  if (!movie) {
-    return <MovieNotFound />;
+  if (isMovieDataLoading) {
+    return <div>Ładowanie...</div>;
   }
+
+  const movie = movieData as Movie;
+
+  const { description, title, genre, image, releaseDate, director, duration } =
+    movieData as Movie;
+
+  const movieGenre = typeof genre === "number" && isFinite(genre) ? genre : 21;
+  const displayedGenre = Genre[movieGenre] ?? "Inny";
 
   const isMovieFavorite = isFavorite(movie);
   const isMovieInWatchLater = isInWatchLater(movie.id);
 
   // Find random actors for the cast (in a real app, this would be actual cast data)
-  const movieActors = mockActors
-    .slice(0, movie.cast?.length || 0)
-    .map((actor, index) => ({
-      ...actor,
-      name: movie.cast?.[index], // Use the movie's cast names
-    }));
+  const movieActors = mockActors.slice(0, 12).map((actor, index) => ({
+    ...actor,
+  }));
 
   const handleWatchLaterClick = () => {
     if (isMovieInWatchLater) {
-      removeFromWatchLater(movie.id);
+      removeFromWatchLater(params.id);
     } else {
       addToWatchLater(movie);
     }
@@ -70,31 +119,26 @@ export default function MovieDetailsClient({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Movie Poster */}
         <div className="relative aspect-[2/3] rounded-lg overflow-hidden">
-          <Image
-            src={movie.posterUrl}
-            alt={movie.title}
-            fill
-            className="object-cover"
-          />
+          <Image src={image || ""} alt={title} fill className="object-cover" />
         </div>
 
         {/* Movie Details */}
         <div className="md:col-span-2 space-y-6">
           <div>
-            <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
+            <h1 className="text-4xl font-bold mb-2">{title}</h1>
             <div className="flex items-center space-x-4 text-muted-foreground">
-              <span>{movie.year}</span>
+              <span>{dayjs(releaseDate).format("DD.MM.YYYY")}</span>
               <span>•</span>
-              <span>{movie.genre}</span>
+              <span>{displayedGenre}</span>
               <span>•</span>
               <div className="flex items-center">
                 <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                <span>{movie.rating}</span>
+                <span>{4}</span>
               </div>
             </div>
           </div>
 
-          <p className="text-lg">{movie.description}</p>
+          <p className="text-lg">{description}</p>
 
           <div className="flex items-center space-x-4">
             <Button
@@ -155,13 +199,13 @@ export default function MovieDetailsClient({
             <CardContent className="grid grid-cols-2 gap-4 p-6">
               <div>
                 <p className="text-sm text-muted-foreground">Reżyser</p>
-                <p className="font-medium">{movie.director || "Unknown"}</p>
+                <p className="font-medium">{director || "Unknown"}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Czas trwania</p>
                 <p className="font-medium flex items-center">
                   <Clock className="w-4 h-4 mr-1" />
-                  {movie.duration || "120"} min
+                  {duration || "120"} min
                 </p>
               </div>
             </CardContent>

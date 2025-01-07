@@ -4,8 +4,11 @@ export interface Movie {
   description: string;
   posterUrl: string;
   year: number;
-  genre: string;
-  rating: number;
+  image?: string;
+  release_date?: string;
+  releaseDate?: string;
+  genre: string | number;
+  rating?: number;
   director?: string;
   cast?: string[];
   duration?: number;

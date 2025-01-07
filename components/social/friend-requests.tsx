@@ -23,7 +23,6 @@ export function FriendRequests() {
           <CardContent className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-4">
               <Avatar>
-                <AvatarImage src={request.avatar} />
                 <AvatarFallback>{request.name[0]}</AvatarFallback>
               </Avatar>
               <div>

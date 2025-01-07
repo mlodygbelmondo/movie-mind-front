@@ -22,7 +22,6 @@ export default function ActorProfile({ params }: { params: { id: string } }) {
       {/* Actor Header */}
       <div className="flex items-start gap-6">
         <Avatar className="w-32 h-32">
-          <AvatarImage src={actor.imageUrl} />
           <AvatarFallback>{actor.name[0]}</AvatarFallback>
         </Avatar>
         <div className="space-y-4">

@@ -8,6 +8,7 @@ import { mockMovies, mockUsers, mockSocialPosts } from "@/lib/mock";
 import { useFavorites } from "@/lib/favorites/favorites-context";
 import { useWatchLater } from "@/lib/watch-later/watch-later-context";
 import { Movie } from "@/lib/types";
+import { useEffect, useState } from "react";
 
 // For demo purposes, use the first mock user
 const currentUser = mockUsers[0];
@@ -17,6 +18,22 @@ const userActivity = mockSocialPosts.filter(
 );
 
 export default function ProfilePage() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const url =
+        "https://jsonplaceholder.typicode.com/comments?" +
+        new URLSearchParams({ postId: "1" }).toString();
+      const res = await fetch(url);
+      const data = await res.json();
+      setData(data);
+    }
+    fetchPosts();
+  }, []);
+
+  if (!data) return <div>Ładowanie...</div>;
+
   const { favorites } = useFavorites();
   const { watchLater } = useWatchLater();
 
@@ -30,7 +47,6 @@ export default function ProfilePage() {
       {/* Profile Header */}
       <div className="flex items-start gap-6 mb-8">
         <Avatar className="w-24 h-24">
-          <AvatarImage src={currentUser.avatar} />
           <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
         </Avatar>
         <div>

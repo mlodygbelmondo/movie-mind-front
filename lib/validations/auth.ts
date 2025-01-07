@@ -4,9 +4,7 @@ export const loginSchema = z.object({
   email: z.string().email({
     message: "Proszę podać prawidłowy adres e-mail",
   }),
-  password: z.string().min(8, {
-    message: "Hasło musi zawierać co najmniej 8 znaków",
-  }),
+  password: z.string(),
 });
 
 export type LoginValues = z.infer<typeof loginSchema>;

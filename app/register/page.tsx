@@ -25,6 +25,9 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import * as z from "zod";
+import { APICommands } from "@/lib/api/api-commands";
+import { useMutation } from "@/hooks/use-mutation";
+import { signIn } from "next-auth/react";
 
 const registerSchema = z
   .object({
@@ -47,8 +50,17 @@ const registerSchema = z
 type RegisterValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  const { trigger: register, isMutating: isLoading } = useMutation({
+    endpoint: APICommands.register,
+    params: {},
+  });
+
+  const { trigger: logIn } = useMutation({
+    endpoint: APICommands.logIn,
+    params: {},
+  });
 
   const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
@@ -61,10 +73,26 @@ export default function RegisterPage() {
   });
 
   async function onSubmit(data: RegisterValues) {
-    setIsLoading(true);
     try {
-      // Add your registration logic here
-      console.log(data);
+      const result = await register({
+        login: data.name,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (!result.accessToken) {
+        throw new Error("Invalid credentials");
+      }
+
+      await signIn("credentials", {
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        accessToken: result.accessToken,
+        id: result.accessToken,
+        callbackUrl: "/",
+      });
+
       toast({
         title: "Sukces",
         description: "Twoje konto zostało utworzone.",
@@ -76,7 +104,6 @@ export default function RegisterPage() {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
     }
   }
 

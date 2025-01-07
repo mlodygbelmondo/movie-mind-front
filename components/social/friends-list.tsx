@@ -5,38 +5,24 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MessageCircle } from "lucide-react";
 
-export function FriendsList() {
-  const mockFriends = [
-    {
-      id: "1",
-      name: "Sarah Wilson",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format",
-      mutualMovies: 15,
-    },
-    {
-      id: "2",
-      name: "Michael Chen",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format",
-      mutualMovies: 8,
-    },
-  ];
+type OwnProps = {
+  friends: string[];
+};
 
+export function FriendsList({ friends }: OwnProps) {
   return (
     <div className="space-y-4">
-      {mockFriends.map((friend) => (
-        <Card key={friend.id}>
+      {friends.map((name, i) => (
+        <Card key={i}>
           <CardContent className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-4">
               <Avatar>
-                <AvatarImage src={friend.avatar} />
-                <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                <AvatarFallback>{name[0]}</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium">{friend.name}</p>
+                <p className="font-medium">{name}</p>
                 <p className="text-sm text-muted-foreground">
-                  {friend.mutualMovies} wspólnych filmów
+                  {(Math.random() * 7 + 6).toFixed()} wspólnych filmów
                 </p>
               </div>
             </div>

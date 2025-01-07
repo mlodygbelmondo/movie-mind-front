@@ -10,21 +10,38 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { MovieCard } from "@/components/movie-card";
 import { mockMovies } from "@/lib/mock";
+import { Movie } from "@/lib/types";
 
-export function MovieRecommendations() {
+interface MovieRecommendationsProps {
+  movie: Movie;
+  recommendedMovies: Movie[];
+  popularMovies: Movie[];
+  friendsActivity: {
+    friend_name: string;
+    movie: Movie;
+    action: string;
+  }[];
+}
+
+export function MovieRecommendations({
+  movie,
+  recommendedMovies,
+  popularMovies,
+  friendsActivity,
+}: MovieRecommendationsProps) {
   return (
     <div className="space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>Ponieważ polubiłeś "Inception"</CardTitle>
+          <CardTitle>Ponieważ polubiłeś {movie.title}</CardTitle>
           <CardDescription>
-            Filmy z zapierającą dech w piersiach fabułą i oszałamiającą grafiką
+            Sprawdź przygotowaną przez nas listę rekomendacji
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ScrollArea>
             <div className="flex space-x-4 pb-4 pt-2">
-              {mockMovies.slice(0, 5).map((movie) => (
+              {recommendedMovies.map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
               ))}
             </div>
@@ -35,16 +52,38 @@ export function MovieRecommendations() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Popularne Wśród Znajomych</CardTitle>
+          <CardTitle>Popularne Filmy</CardTitle>
           <CardDescription>
-            Popularne filmy w twoim kręgu znajomych
+            Sprawdź filmy, które odniosły spektakularny sukces
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ScrollArea>
+            <div className="flex space-x-4 pb-4 pt-2">
+              {popularMovies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Wśród Znajomych</CardTitle>
+          <CardDescription>
+            Zobacz czym w ostatnim czasie interesowali się Twoi znajomi!
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ScrollArea>
             <div className="flex space-x-4 pb-4">
-              {mockMovies.slice(5, 10).map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+              {friendsActivity.map((activity, i) => (
+                <MovieCard
+                  key={`${activity.friend_name}${i}`}
+                  movie={activity.movie}
+                />
               ))}
             </div>
             <ScrollBar orientation="horizontal" />

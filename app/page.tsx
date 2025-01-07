@@ -10,10 +10,54 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ActorCard } from "@/components/actor-card";
+import { APIQueries } from "@/lib/api/api-queries";
+import { useQuery } from "@/hooks/use-query";
+import { Movie } from "@/lib/types";
+import { useAccessToken } from "@/hooks/use-access-token";
+
+type Data = {
+  recommendations_section: {
+    movie: Movie;
+    recommendations: Movie[];
+  };
+  popular_movies_section: Movie[];
+  friends_activity_section: {
+    friend_name: string;
+    movie: Movie;
+    action: string;
+  }[];
+};
 
 export default function Home() {
+  const accessToken = useAccessToken();
+
   const [movieSearchQuery, setMovieSearchQuery] = useState("");
+
+  const { data, isLoading } = useQuery({
+    endpoint: APIQueries.getMainPageData,
+    params: {
+      userId: "1",
+    },
+    accessToken,
+  });
+
+  const { data: allMovies, isLoading: allMoviesLoading } = useQuery({
+    endpoint: APIQueries.getAllMovies,
+    params: {
+      search: movieSearchQuery,
+    },
+    accessToken,
+  });
+
   const [actorSearchQuery, setActorSearchQuery] = useState("");
+
+  if (isLoading) return <div>Ładowanie...</div>;
+
+  const {
+    recommendations_section,
+    popular_movies_section,
+    friends_activity_section,
+  } = data as Data;
 
   const filteredMovies = mockMovies.filter((movie) =>
     movie.title.toLowerCase().includes(movieSearchQuery.toLowerCase())
@@ -35,16 +79,17 @@ export default function Home() {
 
       <Tabs defaultValue="recommendations" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="recommendations">Rekomendacje</TabsTrigger>
-          <TabsTrigger value="social">Social</TabsTrigger>
+          <TabsTrigger value="recommendations">Główna</TabsTrigger>
           <TabsTrigger value="all-films">Katalog filmów</TabsTrigger>
           <TabsTrigger value="all-actors">Aktorzy</TabsTrigger>
         </TabsList>
         <TabsContent value="recommendations" className="space-y-4">
-          <MovieRecommendations />
-        </TabsContent>
-        <TabsContent value="social" className="space-y-4">
-          <SocialFeed />
+          <MovieRecommendations
+            movie={recommendations_section.movie}
+            recommendedMovies={recommendations_section.recommendations}
+            popularMovies={popular_movies_section}
+            friendsActivity={friends_activity_section}
+          />
         </TabsContent>
         <TabsContent value="all-films" className="space-y-4">
           <div className="space-y-4">
@@ -58,9 +103,17 @@ export default function Home() {
               <CardContent className="p-4">
                 <ScrollArea>
                   <div className="flex space-x-4 pb-4">
-                    {filteredMovies.map((movie) => (
-                      <MovieCard key={movie.id} movie={movie} />
-                    ))}
+                    {allMoviesLoading ? (
+                      <div>Ładowanie...</div>
+                    ) : (allMovies as Movie[]).length > 0 ? (
+                      (allMovies as Movie[]).map((movie) => (
+                        <MovieCard key={movie.id} movie={movie} />
+                      ))
+                    ) : (
+                      <div className="text-muted-foreground pt-4 text-center w-full">
+                        Nie znaleziono filmów
+                      </div>
+                    )}
                   </div>
                   <ScrollBar orientation="horizontal" />
                 </ScrollArea>

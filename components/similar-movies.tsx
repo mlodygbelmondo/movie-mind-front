@@ -3,16 +3,30 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { MovieCard } from "@/components/movie-card";
 import { mockMovies } from "@/lib/mock";
+import { APIQueries } from "@/lib/api/api-queries";
+import { useQuery } from "@/hooks/use-query";
+import { Movie } from "@/lib/types";
 
 interface SimilarMoviesProps {
   movieId: string;
 }
 
+type Data = {
+  recommendations: Movie[];
+};
+
 export function SimilarMovies({ movieId }: SimilarMoviesProps) {
-  const similarMovies = mockMovies
-    .filter((m) => m.id !== movieId)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 5);
+  const { data: similarMoviesData, isLoading: isSimilarMoviesDataLoading } =
+    useQuery({
+      endpoint: APIQueries.getRecommendedMovies,
+      params: {
+        movieId,
+      },
+    });
+
+  if (isSimilarMoviesDataLoading) return <div>Ładowanie...</div>;
+
+  const { recommendations: similarMovies } = similarMoviesData as Data;
 
   return (
     <ScrollArea>

@@ -16,6 +16,39 @@ import Link from "next/link";
 import { useFavorites } from "@/lib/favorites/favorites-context";
 import { useWatchLater } from "@/lib/watch-later/watch-later-context";
 import { cn } from "@/lib/utils";
+import dayjs from "dayjs";
+
+export const Genre: { [key: number]: string } = {
+  0: "Akcja",
+  1: "Animacja",
+  2: "Animacja 18+",
+  3: "Anime",
+  4: "Biograficzny",
+  5: "Basn",
+  6: "Czarna Komedia",
+  7: "Dla Dzieci",
+  8: "Dokumentalny",
+  9: "Dramat",
+  10: "Obyczajowy",
+  11: "SciFi",
+  12: "Fantasy",
+  13: "Przyrodniczy",
+  14: "Erotyczny",
+  15: "Romans",
+  16: "Wojenny",
+  17: "Western",
+  18: "Przygodowy",
+  19: "Thriller",
+  20: "Musical",
+  21: "Inny",
+  22: "Kryminal",
+  23: "Komedia",
+  24: "Historyczny",
+  25: "Familijny",
+  26: "Horror",
+  27: "Tajemnica",
+  28: "Muzyczny",
+};
 
 interface MovieCardProps {
   movie: Movie;
@@ -45,6 +78,10 @@ export function MovieCard({ movie }: MovieCardProps) {
     }
   };
 
+  const movieGenre =
+    typeof movie.genre === "number" && isFinite(movie.genre) ? movie.genre : 21;
+  const genre = Genre[movieGenre] ?? "Inny";
+
   return (
     <Link
       href={`/movies/${movie.id}`}
@@ -53,7 +90,7 @@ export function MovieCard({ movie }: MovieCardProps) {
       <Card className="w-full flex flex-col h-full">
         <div className="relative aspect-[2/3] overflow-hidden">
           <Image
-            src={movie.posterUrl}
+            src={movie.image || movie.posterUrl}
             alt={movie.title}
             fill
             className="object-cover"
@@ -62,7 +99,7 @@ export function MovieCard({ movie }: MovieCardProps) {
         <CardHeader>
           <CardTitle className="line-clamp-1">{movie.title}</CardTitle>
           <CardDescription>
-            {movie.year} • {movie.genre}
+            {dayjs(movie.release_date || movie.year).year()} • {genre}
           </CardDescription>
         </CardHeader>
         <CardContent>

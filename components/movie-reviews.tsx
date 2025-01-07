@@ -124,7 +124,6 @@ export function MovieReviews({ movieId }: MovieReviewsProps) {
             <CardHeader>
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src={review.user.avatar} />
                   <AvatarFallback>{review.user.name[0]}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -151,16 +150,6 @@ export function MovieReviews({ movieId }: MovieReviewsProps) {
             </CardHeader>
             <CardContent>
               <p className="mb-4">{review.content}</p>
-              <div className="flex items-center space-x-4">
-                <Button variant="ghost" size="sm" className="space-x-1">
-                  <ThumbsUp className="w-4 h-4" />
-                  <span>{review.likes}</span>
-                </Button>
-                <Button variant="ghost" size="sm" className="space-x-1">
-                  <MessageSquare className="w-4 h-4" />
-                  <span>{review.comments}</span>
-                </Button>
-              </div>
             </CardContent>
           </Card>
         ))}

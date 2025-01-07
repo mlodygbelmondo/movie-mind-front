@@ -25,10 +25,17 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema, type LoginValues } from "@/lib/validations/auth";
 import Link from "next/link";
+import { useMutation } from "@/hooks/use-mutation";
+import { APICommands } from "@/lib/api/api-commands";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  const { trigger: logIn, isMutating: isLoading } = useMutation({
+    endpoint: APICommands.logIn,
+    params: {},
+  });
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -39,22 +46,35 @@ export default function LoginPage() {
   });
 
   async function onSubmit(data: LoginValues) {
-    setIsLoading(true);
     try {
-      // Add your login logic here
-      console.log(data);
+      const result = await logIn(data);
+
+      console.log(result);
+
+      if (!result.accessToken) {
+        throw new Error("Invalid credentials");
+      }
+
+      await signIn("credentials", {
+        email: data.email,
+        name: data.email,
+        password: data.password,
+        accessToken: result.accessToken,
+        id: result.accessToken,
+        callbackUrl: "/",
+      });
+
       toast({
         title: "Sukces",
         description: "Zalogowano pomyślnie.",
       });
     } catch (error) {
+      console.log(JSON.stringify(error, null, 2));
       toast({
         title: "Coś poszło nie tak",
         description: "Nieprawidłowy adres e-mail lub hasło.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   }
 

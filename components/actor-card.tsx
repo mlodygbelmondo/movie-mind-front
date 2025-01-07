@@ -18,7 +18,6 @@ export function ActorCard({ actor }: ActorCardProps) {
       <Card className="h-full">
         <CardHeader className="text-center">
           <Avatar className="w-32 h-32 mx-auto">
-            <AvatarImage src={actor.imageUrl} alt={actor.name} />
             <AvatarFallback>{actor.name[0]}</AvatarFallback>
           </Avatar>
           <h3 className="font-semibold text-lg mt-2">{actor.name}</h3>
