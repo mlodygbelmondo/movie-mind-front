@@ -9,13 +9,10 @@ import { useFavorites } from "@/lib/favorites/favorites-context";
 import { useWatchLater } from "@/lib/watch-later/watch-later-context";
 import { Movie } from "@/lib/types";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
-// For demo purposes, use the first mock user
-const currentUser = mockUsers[0];
-// Get user's activity
-const userActivity = mockSocialPosts.filter(
-  (post) => post.user.id === currentUser.id
-);
+const userActivity: unknown[] = [];
+const currentUserFavoriteGenres = ["Akcja", "Dramat", "Thriller"];
 
 export default function ProfilePage() {
   const [data, setData] = useState(null);
@@ -31,27 +28,27 @@ export default function ProfilePage() {
     }
     fetchPosts();
   }, []);
-
-  if (!data) return <div>Ładowanie...</div>;
-
   const { favorites } = useFavorites();
   const { watchLater } = useWatchLater();
 
-  // Get full movie objects from mock data
-  const favoriteMovies = favorites
-    .map((id) => mockMovies.find((m) => m.id === id))
-    .filter(Boolean) as Movie[];
+  const { data: sessionData } = useSession();
+  const user = sessionData?.user;
+
+  if (!data) return <div>Ładowanie...</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Profile Header */}
       <div className="flex items-start gap-6 mb-8">
         <Avatar className="w-24 h-24">
-          <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+          <AvatarFallback>
+            {user?.name ? user.name[0] : user?.email ? user?.email[0] : ""}
+          </AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="text-3xl font-bold mb-2">{currentUser.name}</h1>
-          <p className="text-muted-foreground mb-4">{currentUser.bio}</p>
+          <h1 className="text-3xl font-bold mb-2">
+            {user?.name ?? user?.email}
+          </h1>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <div>
               <span className="font-semibold text-foreground">
@@ -86,7 +83,7 @@ export default function ProfilePage() {
 
         <TabsContent value="favorites" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {favoriteMovies.map((movie) => (
+            {favorites.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
@@ -101,7 +98,7 @@ export default function ProfilePage() {
         </TabsContent>
 
         <TabsContent value="activity" className="space-y-6">
-          {userActivity.map((post) => (
+          {/* {userActivity.map((post) => (
             <Card key={post.id}>
               <CardHeader>
                 <div className="flex items-center space-x-4">
@@ -117,7 +114,7 @@ export default function ProfilePage() {
                 <MovieCard movie={post.movie} />
               </CardContent>
             </Card>
-          ))}
+          ))} */}
         </TabsContent>
 
         <TabsContent value="about">
@@ -128,12 +125,12 @@ export default function ProfilePage() {
             <CardContent className="space-y-4">
               <div>
                 <h3 className="font-medium mb-2">E-mail</h3>
-                <p className="text-muted-foreground">{currentUser.email}</p>
+                <p className="text-muted-foreground">{user?.email}</p>
               </div>
               <div>
                 <h3 className="font-medium mb-2">Ulubione gatunki</h3>
                 <div className="flex flex-wrap gap-2">
-                  {currentUser.favoriteGenres?.map((genre) => (
+                  {currentUserFavoriteGenres.map((genre) => (
                     <span
                       key={genre}
                       className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"

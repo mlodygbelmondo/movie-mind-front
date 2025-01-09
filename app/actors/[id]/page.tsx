@@ -3,7 +3,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { MovieCard } from "@/components/movie-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-
+import { KnownFor } from "@/components/actor/known-for";
 export const generateStaticParams = async () => {
   return mockActors.map((actor) => ({
     id: actor.id,
@@ -41,11 +41,7 @@ export default function ActorProfile({ params }: { params: { id: string } }) {
         <Card>
           <CardContent className="p-4">
             <ScrollArea>
-              <div className="flex space-x-4 pb-4">
-                {actor.knownFor.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
-              </div>
+              <KnownFor />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </CardContent>

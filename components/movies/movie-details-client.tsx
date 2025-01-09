@@ -70,8 +70,9 @@ export default function MovieDetailsClient({
   console.log(movieData, "movieData");
 
   const {
-    toggleFavorite,
-    isFavorite,
+    addToFavorites,
+    removeFromFavorites,
+    isInFavorites,
     isLoading: isFavoriteLoading,
   } = useFavorites();
   const { addToWatchLater, removeFromWatchLater, isInWatchLater } =
@@ -90,7 +91,7 @@ export default function MovieDetailsClient({
   const movieGenre = typeof genre === "number" && isFinite(genre) ? genre : 21;
   const displayedGenre = Genre[movieGenre] ?? "Inny";
 
-  const isMovieFavorite = isFavorite(movie);
+  const isMovieFavorite = isInFavorites(movie.id);
   const isMovieInWatchLater = isInWatchLater(movie.id);
 
   // Find random actors for the cast (in a real app, this would be actual cast data)
@@ -103,6 +104,13 @@ export default function MovieDetailsClient({
       removeFromWatchLater(params.id);
     } else {
       addToWatchLater(movie);
+    }
+  };
+  const handleFavoritesClick = () => {
+    if (isMovieFavorite) {
+      removeFromFavorites(params.id);
+    } else {
+      addToFavorites(movie);
     }
   };
   const handleShare = async () => {
@@ -146,7 +154,7 @@ export default function MovieDetailsClient({
                 "space-x-2",
                 isMovieFavorite && "bg-red-100 hover:bg-red-200 text-red-500"
               )}
-              onClick={() => toggleFavorite(movie)}
+              onClick={handleFavoritesClick}
               disabled={isFavoriteLoading}
             >
               {isFavoriteLoading ? (

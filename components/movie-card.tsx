@@ -56,8 +56,9 @@ interface MovieCardProps {
 
 export function MovieCard({ movie }: MovieCardProps) {
   const {
-    toggleFavorite,
-    isFavorite,
+    addToFavorites,
+    removeFromFavorites,
+    isInFavorites,
     isLoading: isFavLoading,
   } = useFavorites();
   const {
@@ -66,7 +67,7 @@ export function MovieCard({ movie }: MovieCardProps) {
     isInWatchLater,
     isLoading: isWatchLoading,
   } = useWatchLater();
-  const isMovieFavorite = isFavorite(movie);
+  const isMovieFavorite = isInFavorites(movie.id);
   const isMovieInWatchLater = isInWatchLater(movie.id);
 
   const handleWatchLaterClick = (e: React.MouseEvent) => {
@@ -75,6 +76,15 @@ export function MovieCard({ movie }: MovieCardProps) {
       removeFromWatchLater(movie.id);
     } else {
       addToWatchLater(movie);
+    }
+  };
+
+  const handleFavoritesClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isMovieFavorite) {
+      removeFromFavorites(movie.id);
+    } else {
+      addToFavorites(movie);
     }
   };
 
@@ -112,10 +122,7 @@ export function MovieCard({ movie }: MovieCardProps) {
             variant="outline"
             size="icon"
             className={cn("rounded-full", isMovieFavorite && "bg-red-100")}
-            onClick={(e) => {
-              e.preventDefault();
-              toggleFavorite(movie);
-            }}
+            onClick={handleFavoritesClick}
             disabled={isFavLoading}
           >
             {isFavLoading ? (

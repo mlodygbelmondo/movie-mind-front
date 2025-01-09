@@ -1,14 +1,20 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Movie } from "@/lib/types";
-import { FavoritesService } from "./favorites-service";
+import {
+  addToFavorite as addToFavoriteService,
+  removeFromFavorite as removeFromFavoriteService,
+  getFavoriteMovies,
+  isInFavorite as isInFavoriteService,
+} from "./favorites-service";
 import { useToast } from "@/hooks/use-toast";
 
 interface FavoritesContextType {
-  toggleFavorite: (movie: Movie) => void;
-  isFavorite: (movie: Movie) => boolean;
-  favorites: string[];
+  favorites: Movie[];
+  addToFavorites: (movie: Movie) => void;
+  removeFromFavorites: (movieId: string) => void;
+  isInFavorites: (movieId: string) => boolean;
   isLoading: boolean;
 }
 
@@ -16,58 +22,50 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(
   undefined
 );
 
-// Mock user ID for demo purposes
-const MOCK_USER_ID = "user123";
-
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const [favoritesService] = useState(() => new FavoritesService());
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [favorites, setFavorites] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load initial favorites
-    setFavorites(favoritesService.getFavorites(MOCK_USER_ID));
-  }, [favoritesService]);
+    setFavorites(getFavoriteMovies());
+    setIsLoading(false);
+  }, []);
 
-  const toggleFavorite = async (movie: Movie) => {
-    setIsLoading(true);
-    try {
-      const isFav = favoritesService.isFavorite(MOCK_USER_ID, movie);
+  const addToFavorites = (movie: Movie) => {
+    addToFavoriteService(movie);
+    setFavorites(getFavoriteMovies());
+    toast({
+      title: "Dodano do Do Obejrzenia",
+      description: `${movie.title} został dodany do listy filmów do obejrzenia.`,
+    });
+  };
 
-      if (isFav) {
-        favoritesService.removeFavorite(MOCK_USER_ID, movie);
-        toast({
-          title: "Usunięto z Ulubionych",
-          description: `${movie.title} został usunięty z ulubionych.`,
-        });
-      } else {
-        favoritesService.addFavorite(MOCK_USER_ID, movie);
-        toast({
-          title: "Dodano do Ulubionych",
-          description: `${movie.title} został dodany do ulubionych.`,
-        });
-      }
-
-      setFavorites(favoritesService.getFavorites(MOCK_USER_ID));
-    } catch (error) {
+  const removeFromFavorites = (movieId: string) => {
+    const movie = favorites.find((m) => m.id === movieId);
+    removeFromFavoriteService(movieId);
+    setFavorites(getFavoriteMovies());
+    if (movie) {
       toast({
-        title: "Coś poszło nie tak",
-        description: "Nie udało się zaktualizować Ulubionych. Spróbuj ponownie.",
-        variant: "destructive",
+        title: "Usunięto z Do Obejrzenia",
+        description: `${movie.title} został usunięty z listy filmów do obejrzenia.`,
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const isFavorite = (movie: Movie) => {
-    return favoritesService.isFavorite(MOCK_USER_ID, movie);
+  const isInFavorites = (movieId: string) => {
+    return isInFavoriteService(movieId);
   };
 
   return (
     <FavoritesContext.Provider
-      value={{ toggleFavorite, isFavorite, favorites, isLoading }}
+      value={{
+        favorites,
+        addToFavorites,
+        removeFromFavorites,
+        isInFavorites,
+        isLoading,
+      }}
     >
       {children}
     </FavoritesContext.Provider>
@@ -77,7 +75,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 export function useFavorites() {
   const context = useContext(FavoritesContext);
   if (context === undefined) {
-    throw new Error("useFavorites must be used within a FavoritesProvider");
+    throw new Error("useWatchLater must be used within a WatchLaterProvider");
   }
   return context;
 }

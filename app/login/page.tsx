@@ -49,15 +49,13 @@ export default function LoginPage() {
     try {
       const result = await logIn(data);
 
-      console.log(result);
-
       if (!result.accessToken) {
         throw new Error("Invalid credentials");
       }
 
       await signIn("credentials", {
         email: data.email,
-        name: data.email,
+        name: result.login,
         password: data.password,
         accessToken: result.accessToken,
         id: result.accessToken,
