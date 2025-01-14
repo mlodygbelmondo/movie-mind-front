@@ -8,6 +8,7 @@ import { FavoritesProvider } from "../lib/favorites/favorites-context";
 import { WatchLaterProvider } from "../lib/watch-later/watch-later-context";
 import { Session } from "next-auth";
 import { SessionWrapper } from "@/lib/session-wrapper/session-wrapper";
+import { Footer } from "@/components/footer/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,19 +28,20 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <FavoritesProvider>
-            <WatchLaterProvider>
-              <SessionWrapper session={session}>
+          <SessionWrapper session={session}>
+            <FavoritesProvider>
+              <WatchLaterProvider>
                 <div className="min-h-screen bg-background">
                   <Navbar />
                   <main className="container mx-auto px-4 py-4">
                     {children}
                   </main>
+                  <Footer />
                 </div>
                 <Toaster />
-              </SessionWrapper>
-            </WatchLaterProvider>
-          </FavoritesProvider>
+              </WatchLaterProvider>
+            </FavoritesProvider>
+          </SessionWrapper>
         </ThemeProvider>
       </body>
     </html>

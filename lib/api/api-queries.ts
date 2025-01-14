@@ -27,4 +27,12 @@ export const APIQueries = {
     `http://127.0.0.1:5001/getSocialPageData/${userId}`,
   getUserProfilePageData: ({ userId }: GetUserProfilePageDataParams): string =>
     `${process.env.NEXT_PUBLIC_API_URL}/getUserProfilePageData/${userId}`,
+  getFriends: ({ userId }: { userId: string }): string =>
+    `http://127.0.0.1:5001/getFriends/${userId}`,
+  getPendingFriendRequests: ({ userId }: { userId: string }): string =>
+    `http://127.0.0.1:5001/getPendingFriendRequests/${userId}`,
+  getNonFriends: ({ userId }: { userId: string }): string =>
+    `http://127.0.0.1:5001/getNonFriends/${userId}`,
+  getAdvancedMovieDetails: ({ movieId }: { movieId: string }): string =>
+    `http://127.0.0.1:5001/getAdvancedMovieDetails/${movieId}`,
 };

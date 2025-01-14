@@ -84,12 +84,25 @@ export default function RegisterPage() {
         throw new Error("Invalid credentials");
       }
 
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/User/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${result.accessToken}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("An error occurred while fetching the data.");
+      }
+      const { id } = await response.json();
+
       await signIn("credentials", {
         email: data.email,
         name: data.name,
         password: data.password,
         accessToken: result.accessToken,
-        id: result.accessToken,
+        id,
         callbackUrl: "/",
       });
 

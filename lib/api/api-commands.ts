@@ -29,7 +29,6 @@ type LogOutCommandParams = {
 };
 
 type AddFriendCommandParams = {
-  userId: string;
   friendId: string;
 };
 
@@ -90,21 +89,21 @@ export const APICommands = {
   },
   // logOut: ({ userId }: LogOutCommandParams): string =>
   //   `${process.env.NEXT_PUBLIC_API_URL}/logOut/${userId}`,
-  sendFriendRequest: ({ userId, friendId }: AddFriendCommandParams) => {
+  sendFriendRequest: ({ friendId }: AddFriendCommandParams) => {
     return {
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/User/friend/${friendId}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/User/requests/${friendId}`,
       method: "POST",
     };
   },
-  acceptFriendRequest: ({ userId, friendId }: AddFriendCommandParams) => {
+  acceptFriendRequest: ({ friendId }: AddFriendCommandParams) => {
     return {
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/User/friend/${friendId}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/User/requests/${friendId}/accept`,
       method: "POST",
     };
   },
-  rejectFriendRequest: ({ userId, friendId }: AddFriendCommandParams) => {
+  rejectFriendRequest: ({ friendId }: AddFriendCommandParams) => {
     return {
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/User/friend/${friendId}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/User/requests/${friendId}/reject`,
       method: "POST",
     };
   },

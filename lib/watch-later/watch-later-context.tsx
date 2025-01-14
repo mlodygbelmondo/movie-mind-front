@@ -9,6 +9,7 @@ import {
   isInWatchLater as isInWatchLaterService,
 } from "./watch-later-service";
 import { useToast } from "@/hooks/use-toast";
+import { useSessionData } from "@/hooks/use-session-data";
 
 interface WatchLaterContextType {
   watchLater: Movie[];
@@ -30,29 +31,74 @@ export function WatchLaterProvider({
   const [watchLater, setWatchLater] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { accessToken, userId } = useSessionData();
 
   useEffect(() => {
     setWatchLater(getWatchLaterMovies());
     setIsLoading(false);
   }, []);
 
+  const addToWatchLaterCommand = async (movie: Movie) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/Movie/watchLater/${movie.id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            movieId: movie.id,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeFromWatchLaterCommand = async (movieId: string) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/Movie/watchLater/${movieId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            movieId,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const addToWatchLater = (movie: Movie) => {
     addToWatchLaterService(movie);
+    addToWatchLaterCommand(movie);
     setWatchLater(getWatchLaterMovies());
     toast({
       title: "Dodano do Do Obejrzenia",
-      description: `${movie.title} został dodany do listy filmów do obejrzenia.`,
+      description: `Film "${movie.title}" został dodany do listy filmów do obejrzenia.`,
     });
   };
 
   const removeFromWatchLater = (movieId: string) => {
     const movie = watchLater.find((m) => m.id === movieId);
     removeFromWatchLaterService(movieId);
+    removeFromWatchLaterCommand(movieId);
     setWatchLater(getWatchLaterMovies());
     if (movie) {
       toast({
         title: "Usunięto z Do Obejrzenia",
-        description: `${movie.title} został usunięty z listy filmów do obejrzenia.`,
+        description: `Film "${movie.title}" został usunięty z listy filmów do obejrzenia.`,
       });
     }
   };

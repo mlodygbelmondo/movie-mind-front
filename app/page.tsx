@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MovieRecommendations } from "@/components/movie-recommendations";
-import { SocialFeed } from "@/components/social-feed";
-import { mockMovies, mockActors } from "@/lib/mock";
+import { mockActors } from "@/lib/mock";
 import { MovieCard } from "@/components/movie-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -13,13 +12,15 @@ import { ActorCard } from "@/components/actor-card";
 import { APIQueries } from "@/lib/api/api-queries";
 import { useQuery } from "@/hooks/use-query";
 import { Movie } from "@/lib/types";
-import { useAccessToken } from "@/hooks/use-access-token";
+import { useSessionData } from "@/hooks/use-session-data";
 
 type Data = {
-  recommendations_section: {
-    movie: Movie;
-    recommendations: Movie[];
-  };
+  recommendations_section:
+    | {
+        movie: Movie;
+        recommendations: Movie[];
+      }
+    | undefined;
   popular_movies_section: Movie[];
   friends_activity_section: {
     friend_name: string;
@@ -29,14 +30,14 @@ type Data = {
 };
 
 export default function Home() {
-  const accessToken = useAccessToken();
+  const { accessToken, userId } = useSessionData();
 
   const [movieSearchQuery, setMovieSearchQuery] = useState("");
 
   const { data, isLoading } = useQuery({
     endpoint: APIQueries.getMainPageData,
     params: {
-      userId: "1",
+      userId: userId || "",
     },
     accessToken,
   });
@@ -51,17 +52,13 @@ export default function Home() {
 
   const [actorSearchQuery, setActorSearchQuery] = useState("");
 
-  if (isLoading) return <div>Ładowanie...</div>;
+  if (isLoading || !data) return <div>Ładowanie...</div>;
 
   const {
     recommendations_section,
     popular_movies_section,
     friends_activity_section,
   } = data as Data;
-
-  const filteredMovies = mockMovies.filter((movie) =>
-    movie.title.toLowerCase().includes(movieSearchQuery.toLowerCase())
-  );
 
   const filteredActors = mockActors.filter((actor) =>
     actor.name.toLowerCase().includes(actorSearchQuery.toLowerCase())
@@ -85,8 +82,7 @@ export default function Home() {
         </TabsList>
         <TabsContent value="recommendations" className="space-y-4">
           <MovieRecommendations
-            movie={recommendations_section.movie}
-            recommendedMovies={recommendations_section.recommendations}
+            recommendations_section={recommendations_section}
             popularMovies={popular_movies_section}
             friendsActivity={friends_activity_section}
           />

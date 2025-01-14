@@ -9,12 +9,15 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { MovieCard } from "@/components/movie-card";
-import { mockMovies } from "@/lib/mock";
 import { Movie } from "@/lib/types";
 
 interface MovieRecommendationsProps {
-  movie: Movie;
-  recommendedMovies: Movie[];
+  recommendations_section:
+    | {
+        movie: Movie;
+        recommendations: Movie[];
+      }
+    | undefined;
   popularMovies: Movie[];
   friendsActivity: {
     friend_name: string;
@@ -24,37 +27,39 @@ interface MovieRecommendationsProps {
 }
 
 export function MovieRecommendations({
-  movie,
-  recommendedMovies,
+  recommendations_section,
   popularMovies,
   friendsActivity,
 }: MovieRecommendationsProps) {
   return (
     <div className="space-y-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Ponieważ polubiłeś {movie.title}</CardTitle>
-          <CardDescription>
-            Sprawdź przygotowaną przez nas listę rekomendacji
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ScrollArea>
-            <div className="flex space-x-4 pb-4 pt-2">
-              {recommendedMovies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </CardContent>
-      </Card>
-
+      {recommendations_section ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              Ponieważ polubiłeś {recommendations_section.movie.title}
+            </CardTitle>
+            <CardDescription>
+              Sprawdź przygotowaną przez nas listę rekomendacji!
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea>
+              <div className="flex space-x-4 pb-4 pt-2">
+                {recommendations_section.recommendations.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </CardContent>
+        </Card>
+      ) : null}
       <Card>
         <CardHeader>
           <CardTitle>Popularne Filmy</CardTitle>
           <CardDescription>
-            Sprawdź filmy, które odniosły spektakularny sukces
+            Sprawdź filmy, które odniosły spektakularny sukces.
           </CardDescription>
         </CardHeader>
         <CardContent>

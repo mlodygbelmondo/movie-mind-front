@@ -5,10 +5,10 @@ import { FriendsList } from "@/components/social/friends-list";
 import { FriendRequests } from "@/components/social/friend-requests";
 import { ActivityFeed } from "@/components/social/activity-feed";
 import { AddFriend } from "@/components/social/add-friend";
-import { useEffect, useState } from "react";
 import { useQuery } from "@/hooks/use-query";
 import { APIQueries } from "@/lib/api/api-queries";
 import { Movie } from "@/lib/types";
+import { useSessionData } from "@/hooks/use-session-data";
 
 type Data = {
   friend_name: string;
@@ -17,14 +17,17 @@ type Data = {
 }[];
 
 export default function SocialPage() {
+  const { accessToken, userId } = useSessionData();
+
   const { data, isLoading } = useQuery({
     endpoint: APIQueries.getSocialPageData,
     params: {
-      userId: "1",
+      userId: userId || "",
     },
+    accessToken,
   });
 
-  if (isLoading) return <div>Ładowanie...</div>;
+  if (isLoading || !data) return <div>Ładowanie...</div>;
 
   const activityFeed = data as Data;
 
@@ -52,7 +55,7 @@ export default function SocialPage() {
               <TabsTrigger value="add">Zaproś</TabsTrigger>
             </TabsList>
             <TabsContent value="friends">
-              <FriendsList friends={friends} />
+              <FriendsList userId={userId} />
             </TabsContent>
             <TabsContent value="requests">
               <FriendRequests />
